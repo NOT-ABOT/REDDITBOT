@@ -23,7 +23,7 @@ def action():
     	comment_text = comment.body.lower()
     	match = any(string in comment_text for string in words)
     	if comment.id no in matched and match:
-    		
+    		slow("I, A HUMAN, HAVE FOUND ONE")
       		comment.reply("")
       		matched.append(comment.id)
       
