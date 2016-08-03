@@ -27,7 +27,9 @@ def action():
     	if comment.id no in matched and match:
     		slow("I, A HUMAN, HAVE FOUND {} ONE").format(comment.id)
       		comment.reply("")
-      		matched.append(comment.id)
+      		with open('depository.py', 'a') as myFile:
+      			myFile.write(matched.append(str(comment.id)))
+      			myFile.close()
       
 while True:
   action()
