@@ -2,7 +2,9 @@ import praw, time, os
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down
 
 r = praw.Reddit(user_agent='')
-print("Running")
+print("Starting")
+time.sleep(.85)
+print("Processing comments")
 r.login()
 
 words = []
@@ -23,7 +25,7 @@ def action():
     	comment_text = comment.body.lower()
     	match = any(string in comment_text for string in words)
     	if comment.id no in matched and match:
-    		slow("I, A HUMAN, HAVE FOUND ONE")
+    		slow("I, A HUMAN, HAVE FOUND {} ONE").format(comment.id)
       		comment.reply("")
       		matched.append(comment.id)
       
