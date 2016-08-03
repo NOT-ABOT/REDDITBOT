@@ -1,0 +1,24 @@
+import praw, time, os
+#Just a starter
+
+r = praw.Reddit(user_agent='')
+r.login()
+
+words = []
+matched = []
+
+def action():
+	subreddit = r.get_subreddit('test')
+	comment = subreddit.get_comments(limit=75)
+	for comment in comments:
+    	comment_text = comment.body.lower()
+    	match = any(string in comment_text for string in words)
+    	if comment.id no in matched and match:
+      		comment.reply("")
+      		matched.append(comment.id)
+      
+while True:
+  action()
+  time.sleep(10)
+  
+#So this is the preliminary stuff that I can pull off the top of my head
