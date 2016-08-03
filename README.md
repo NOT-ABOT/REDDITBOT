@@ -1,2 +1,1 @@
-# REDDITBOT
-A REDDIT BOT
+A Reddit bot
