@@ -1,5 +1,5 @@
 import praw, time, os
-#Just a starter
+#Just a starter. This is by no means good programming. It was just a hasty type up to get something down
 
 r = praw.Reddit(user_agent='')
 r.login()
