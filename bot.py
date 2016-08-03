@@ -2,10 +2,19 @@ import praw, time, os
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down
 
 r = praw.Reddit(user_agent='')
+print("Running")
 r.login()
 
 words = []
 matched = []
+
+def slow(string):
+	#This is just for effect
+	string = str(string) + '\n'
+	for letter in string:
+		sys.stdout.write(letter)
+		sys.stdout.flush()
+		time.sleep(.055)
 
 def action():
 	subreddit = r.get_subreddit('test')
@@ -14,6 +23,7 @@ def action():
     	comment_text = comment.body.lower()
     	match = any(string in comment_text for string in words)
     	if comment.id no in matched and match:
+    		
       		comment.reply("")
       		matched.append(comment.id)
       
