@@ -4,7 +4,8 @@ import sqlite3
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down for us to work with
 """
 useragent =
-
+app_id = Leave empty for now
+app_secret = leave empty for now
 """
 print("Database opening")
 found = sqlite3.connect('answered.db')
