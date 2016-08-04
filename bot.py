@@ -17,8 +17,11 @@ x = found.cursor()
 x.execute('CREATE TABLE IF NOT EXISTS answered(ID TEXT)')
 found.commit()
 
+"""
+This is obsolete. Callback on redirect url: https://127.0.0.1:65010/authorize_callback
 r = praw.Reddit(user_agent='') #This needs to be filled in
 r.login()
+"""
 print("Starting up and loggin in to Reddit")
 
 words = [] #What are we gonna look for?
