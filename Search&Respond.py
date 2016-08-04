@@ -14,12 +14,14 @@ all_comment_types = [
 depression_words = [
                     'I want to die',
                     'I want to kill myself',
-                    'I hate life'
+                    'I hate life',
                     
-] #This is what we are looking for. We will use regular expressions
+] 
+#This is what we are looking for. We will use regular expressions later
 depression_response = [
-                      'Depression can hurt. If you need someone to talk to someone ' + 'I\'m here for you'
-                      ] #This is what we are responding with. Examples here will be replaced with regular expressions
+                      'Depression can hurt. If you need someone to talk to someone ' + 'I\'m here for you',
+                      'I understand your pain. (This link might be able to help)[https://afsp.org/]'
+] #This is what we are responding with. Examples here will be replaced with regular expressions
 curious_words = [
                 'I wonder'
                 'How does'
