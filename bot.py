@@ -1,5 +1,5 @@
-import praw, time, os
-from depository.py import matched
+import praw, time
+import sqlite3
 
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down for us to work with
 
@@ -12,6 +12,8 @@ password = examplepassword
 
 """
 
+match = sqlite3.connect('matched.db')
+cur = sql.cursor()
 
 r = praw.Reddit(user_agent='') #This needs to be filled in
 r.login()
