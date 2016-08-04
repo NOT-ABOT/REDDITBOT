@@ -10,7 +10,10 @@ x = found.cursor()
 x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
 found.commit()
 
-print("Starting up and loggin in to Reddit")
+print("Starting up and loggin in to Reddit...")
+r = praw.Reddit("ThisIsNotTheBotYouAreLookingFor") #Because this bot needs more star wars refrences.
+o = OAuth2Util.OAuth2Util(r)
+o.refresh(force=True)
 sub = 'test'
 limit = 100
 cid = comment.id
