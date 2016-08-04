@@ -47,5 +47,5 @@ def action():
 
 while True:
   	action()
-  	time.sleep(1)
+  	time.sleep(10)
   
