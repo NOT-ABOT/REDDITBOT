@@ -4,6 +4,10 @@ import sqlite3
 
 #Building up the framework, still a work in progress
 
+r = praw.Reddit("HelpfulBot by /u/UnknownDeveloper and /u/___NOT_A_BOT___")
+o = OAuth2Util.OAuth2Util(r)
+o.refresh(force=True)
+
 print("Database opening")
 found = sqlite3.connect('answered.db') #create a database w/SQLite3 python library
 x = found.cursor()
