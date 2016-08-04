@@ -1,8 +1,13 @@
 import praw, time
+import urllib, scrapy
 from Search&Respond.py import *
 import sqlite3
 
-#Building up the framework, still a work in progress
+###########################################################################################
+#I am adding urllib and Scrapy libraries now to enhance the capabilities of this bot. As I#
+#have not used Scrapy before, this may take a few hours to get the hang of, then another  #
+#few to implement it. So please do not remove these imports!                              #
+###########################################################################################
 
 print("Database opening")
 found = sqlite3.connect('answered.db') #create a database w/SQLite3 python library
@@ -15,7 +20,7 @@ r = praw.Reddit("ThisIsNotTheBotYouAreLookingFor") #Because this bot needs more 
 o = OAuth2Util.OAuth2Util(r)
 o.refresh(force=True)
 sub = 'test'
-limit = 100
+maxposts = 100
 cid = comment.id
 sid = submission.id
 
@@ -26,7 +31,7 @@ class CommentReply:
 		self.response_type = response_type
 		
 	def reply_to_comment(comment_type, reponse_type):
-		comments = r.get_subreddit(sub).get_comments(limit)
+		comments = r.get_subreddit(sub).get_comments(limit=maxposts)
 		for comment in comments:
 			x.execute('Select * FROM answered WHERE ID=?', [cid])
 			if not x.fetchone():
@@ -53,7 +58,7 @@ class SubmissionReply:
 			self.submission_reply = submission_reply
 			
 		def reply_to_submission(submission_type, _response_type)
-			submissions = r.get_subreddit(sub).get_new(limit)
+			submissions = r.get_subreddit(sub).get_new(limit=maxposts)
 			for submission in submissions:
 				x.execute('SELECT * FROM answered WHERE ID=?', [sid])
 				if not x.fetchone:
@@ -78,4 +83,4 @@ while True:
   		time.sleep(10)
   	for i in range(len(all_submission_types)):
   		SubmissionReply.reply_to_submission(all_submission_types[i], all_submission_types[i+1])
-  
+  	time.sleep(10)
