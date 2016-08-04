@@ -1,4 +1,5 @@
 import praw, time
+from Search&Respond.py import words, response
 import sqlite3
 
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down for us to work with
@@ -19,11 +20,11 @@ r= praw.Reddit(useragent = '')
 """
 print("Starting up and loggin in to Reddit")
 
-words = [] #What are we gonna look for?
-response = "" #What are we gonna say?
+sub = 'test'
 
-def action():
-	subreddit = r.get_subreddit('test')
+
+def comment_reply():
+	subreddit = r.get_subreddit(sub)
 	comments = subreddit.get_comments(limit=100)
 	for comment in comments:
 	    x.execute('SELECT * FROM answered WHERE ID=?', [comment.id])
@@ -42,8 +43,9 @@ def action():
       		x.execute('INSERT INTO answered VALUES(?)', [commend.id])
       		found.commit()
       
-
+def submission_reply():
+	
 while True:
-  	action()
+  	comment_reply()
   	time.sleep(10)
   
