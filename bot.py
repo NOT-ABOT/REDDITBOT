@@ -37,20 +37,21 @@ def comment_reply():
 def submission_reply():
 	submissions = r.get_subreddit(sub).get_new(limit=50)
 	for submission in submissions:
-		x.execute
-		try:
-			author = submission.author.name
-			if author.lower() != username.lower():
-				submission_text = submission.text.lower()
-				r.send_message("___NOT_A_BOT___", "Response", "Submission answered")
-				match = any(string in submission_text for string in words)
-				if match:
-					print("Replying to " + author)
-					comment.reply(response)
-		except AttributeError:
-			pass
-		x.execute('INSERT INTO answered VALUES(?)', [submission.id])
-		found.commit()
+		x.execute('SELECT * FROM answered WHERE ID=?,' [submission.id]
+		if not x.fetchone():
+			try:
+				author = submission.author.name
+				if author.lower() != username.lower():
+					submission_text = submission.text.lower()
+					r.send_message("___NOT_A_BOT___", "Response", "Submission answered")
+					match = any(string in submission_text for string in words)
+					if match:
+						print("Replying to " + author)
+						comment.reply(response)
+			except AttributeError:
+				pass
+			x.execute('INSERT INTO answered VALUES(?)', [submission.id])
+			found.commit()
 				
 while True:
   	comment_reply()
