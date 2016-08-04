@@ -38,9 +38,6 @@ def action():
     		        	if match:
     					print("Replying to " + author)
       			        	comment.reply(response)
-      			        	with open('depository.py', 'a') as myFile:
-      				        	myFile.write(matched.append(str(comment.id)) + ', ')
-      				        	myFile.close()
       	    	except AttributeError:
       		    pass
       		    
