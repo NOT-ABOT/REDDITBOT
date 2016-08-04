@@ -76,4 +76,6 @@ while True:
 	for i in range(len(all_comment_types)):
 	  	CommentReply.reply_to_comment(all_comment_types[i], all_comment_types[i+1])
   		time.sleep(10)
+  	for i in range(len(all_submission_types)):
+  		SubmissionReply.reply_to_submission(all_submission_types[i], all_submission_types[i+1])
   
