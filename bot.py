@@ -34,16 +34,18 @@ def action():
     		    author = comment.author.name
     		    if author.lower() != username.lower():
     		        comment_text = comment.body.lower()
-    	    	    match = any(string in comment_text for string in words)
-    		        if match:
-    			        print("Replying to " + author)
-      			        comment.reply(response)
-      			        with open('depository.py', 'a') as myFile:
-      				        myFile.write(matched.append(str(comment.id)) + ', ')
-      				        myFile.close()
-      	    except AttributeError:
+    	    	    	match = any(string in comment_text for string in words)
+    		        	if match:
+    					print("Replying to " + author)
+      			        	comment.reply(response)
+      			        	with open('depository.py', 'a') as myFile:
+      				        	myFile.write(matched.append(str(comment.id)) + ', ')
+      				        	myFile.close()
+      	    	except AttributeError:
       		    pass
+      		    
       		x.execute('INSERT INTO answered VALUES(?)', [commend.id])
+      		found.commit()
       
 
 while True:
