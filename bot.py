@@ -23,8 +23,10 @@ sub = 'test'
 maxposts = 100
 cid = comment.id
 sid = submission.id
+url = 'http://www.google.com/?#q='
+
 """
-This is a test class and is not funcitonal. It will be a web scraper
+This is a test class and is not yet funcitonal. It will, if finished, be a web scraper
 
 class Web_Scraper(scrapy.Spider):
 	name = 'google'
