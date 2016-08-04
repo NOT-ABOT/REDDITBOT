@@ -2,26 +2,16 @@ import praw, time
 from Search&Respond.py import words, response
 import sqlite3
 
-#Just a starter. This is by no means good programming. It was just a hasty type up to get something down for us to work with
-"""
-useragent =
-app_id = Leave empty for now
-app_secret = leave empty for now
-"""
+#Building up the framework, still a work in progress
+
 print("Database opening")
-found = sqlite3.connect('answered.db')
+found = sqlite3.connect('answered.db') #create a database w/SQLite3 python library
 x = found.cursor()
 x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
 found.commit()
 
-"""
-Callback on redirect url: https://127.0.0.1:65010/authorize_callback
-r= praw.Reddit(useragent = '')
-"""
 print("Starting up and loggin in to Reddit")
-
 sub = 'test'
-
 
 def comment_reply():
 	subreddit = r.get_subreddit(sub)
@@ -59,7 +49,7 @@ def submission_reply():
 					comment.reply(response)
 		except AttributeError:
 			pass
-		x.execute('INSERT INTO answered VALUES(?)', [submission.id]
+		x.execute('INSERT INTO answered VALUES(?)', [submission.id])
 		found.commit()
 				
 while True:
