@@ -1,4 +1,5 @@
 import praw, time, os
+from depository.py import matched
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down
 
 r = praw.Reddit(user_agent='')
@@ -8,7 +9,6 @@ print("Processing comments")
 r.login()
 
 words = []
-matched = []
 
 def slow(string):
 	#This is just for effect
