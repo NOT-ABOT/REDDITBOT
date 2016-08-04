@@ -19,8 +19,8 @@ depression_words = [
 ] 
 #This is what we are looking for. We will use regular expressions later
 depression_response = [
-                      'Depression can hurt. If you need someone to talk to someone ' + 'I\'m here for you',
-                      'I understand your pain. (This link might be able to help)[https://afsp.org/]'
+                      'I\'m so sorry to hear that you\'re in pain. If you are in serious pain and need help' + ', ' + '[please visit this site](https://afsp.org/),
+                      'I understand your pain. [This link might be able to help](https://afsp.org/)'
 ] #This is what we are responding with. Examples here will be replaced with regular expressions
 curious_words = [
                 'I wonder'
