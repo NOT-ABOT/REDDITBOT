@@ -23,7 +23,19 @@ sub = 'test'
 maxposts = 100
 cid = comment.id
 sid = submission.id
+"""
+This is a test class and is not funcitonal. It will be a web scraper
 
+class Web_Scraper(scrapy.Spider):
+	name = 'google'
+	allowed_domains = ['google.com']
+	start_urls = ['https://www.google.com']
+	
+	def parse(self, response):
+		filename = response.url.split('/')[-2] + '.html'
+		with open(filename, 'a') as f:
+			f.write(response.body)
+"""
 class CommentReply:
 	
 	def __init__(self, comment_type, response_type):
