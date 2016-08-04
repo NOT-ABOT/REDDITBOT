@@ -3,7 +3,7 @@ from Search&Respond.py import words, response
 import sqlite3
 
 #Building up the framework, still a work in progress
-
+print("Starting up and loggin in to Reddit...")
 r = praw.Reddit("HelpfulBot by /u/UnknownDeveloper and /u/___NOT_A_BOT___")
 o = OAuth2Util.OAuth2Util(r)
 o.refresh(force=True)
@@ -14,7 +14,7 @@ x = found.cursor()
 x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
 found.commit()
 
-print("Starting up and loggin in to Reddit")
+
 sub = 'test'
 
 def comment_reply():
