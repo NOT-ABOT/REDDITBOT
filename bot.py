@@ -11,7 +11,7 @@ app_secret = leave empty for now
 print("Database opening")
 found = sqlite3.connect('answered.db')
 x = found.cursor()
-x.execute('CREATE TABLE IF NOT EXISTS answered(ID TEXT)')
+x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
 found.commit()
 
 """
@@ -33,19 +33,37 @@ def comment_reply():
     		    author = comment.author.name
     		    if author.lower() != username.lower():
     		        comment_text = comment.body.lower()
-    	    	    	match = any(string in comment_text for string in words)
-    		        	if match:
-    					print("Replying to " + author)
-      			        	comment.reply(response)
+    		        r.send_message("___NOT_A_BOT___", "Response", "Comment answered")  
+    	    	    match = any(string in comment_text for string in words)
+    		        if match:
+    				print("Replying to " + author)
+      			    comment.reply(response)
       	    	except AttributeError:
-      		    pass
+      		    	pass
       		    
       		x.execute('INSERT INTO answered VALUES(?)', [commend.id])
       		found.commit()
       
 def submission_reply():
-	
+	submissions = r.get_subreddit(sub).get_new(limit=50)
+	for submission in submissions:
+		x.execute
+		try:
+			author = submission.author.name
+			if author.lower() != username.lower():
+				submission_text = submission.text.lower()
+				r.send_message("___NOT_A_BOT___", "Response", "Submission answered")
+				match = any(string in submission_text for string in words)
+				if match:
+					print("Replying to " + author)
+					comment.reply(response)
+		except AttributeError:
+			pass
+		x.execute('INSERT INTO answered VALUES(?)', [submission.id]
+		found.commit()
+				
 while True:
   	comment_reply()
+  	submission_reply()
   	time.sleep(10)
   
