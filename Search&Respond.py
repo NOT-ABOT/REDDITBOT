@@ -8,6 +8,8 @@ all_comment_types = [
                     depression_responses, 
                     curious_words,
                     curous_responses,
+                    relationship_words,
+                    relationship_responses
 ]
 depression_words = [
                     'I want to die',
@@ -27,3 +29,7 @@ curious_words = [
 curious_responses = [
                     'Here, let me help you with that'
 ]
+
+relationship_words= []
+
+relationship_responses = []
