@@ -25,20 +25,21 @@ def action():
 	comments = subreddit.get_comments(limit=100)
 	for comment in comments:
 		try:
-    		comment_text = comment.body.lower()
     		author = comment.author.name
-    		match = any(string in comment_text for string in words)
-    		if str(comment.id) not in matched and match:
-    			print("Found one by " + str(author))
-      			comment.reply(response)
-      			with open('depository.py', 'a') as myFile:
-      				myFile.write(matched.append(str(comment.id)) + ', ')
-      				myFile.close()
-      		except AttributeError:
-      				pass
+    		if author.lower() != username.lower():
+    		    comment_text = comment.body.lower()
+    	    	match = any(string in comment_text for string in words)
+    		    if str(comment.id) not in matched and match:
+    			    print("Replying to " + author)
+      			    comment.reply(response)
+      			    with open('depository.py', 'a') as myFile:
+      				    myFile.write(matched.append(str(comment.id)) + ', ')
+      				    myFile.close()
+      	except AttributeError:
+      		pass
       
 
 while True:
   	action()
-  	time.sleep(10)
+  	time.sleep(1)
   
