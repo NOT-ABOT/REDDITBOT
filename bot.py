@@ -11,9 +11,11 @@ username = /u/examplebot
 password = examplepassword
 
 """
-
-match = sqlite3.connect('matched.db')
-cur = sql.cursor()
+print("Database opening")
+found = sqlite3.connect('answered.db')
+x = found.cursor()
+x.execute('CREATE TABLE IF NOT EXISTS answered(ID TEXT)')
+found.commit()
 
 r = praw.Reddit(user_agent='') #This needs to be filled in
 r.login()
@@ -26,19 +28,22 @@ def action():
 	subreddit = r.get_subreddit('test')
 	comments = subreddit.get_comments(limit=100)
 	for comment in comments:
-		try:
-    		author = comment.author.name
-    		if author.lower() != username.lower():
-    		    comment_text = comment.body.lower()
-    	    	match = any(string in comment_text for string in words)
-    		    if str(comment.id) not in matched and match:
-    			    print("Replying to " + author)
-      			    comment.reply(response)
-      			    with open('depository.py', 'a') as myFile:
-      				    myFile.write(matched.append(str(comment.id)) + ', ')
-      				    myFile.close()
-      	except AttributeError:
-      		pass
+	    x.execute('SELECT * FROM answered WHERE ID=?', [comment.id])
+	    if not x.fetchone():
+	    	try:
+    		    author = comment.author.name
+    		    if author.lower() != username.lower():
+    		        comment_text = comment.body.lower()
+    	    	    match = any(string in comment_text for string in words)
+    		        if match:
+    			        print("Replying to " + author)
+      			        comment.reply(response)
+      			        with open('depository.py', 'a') as myFile:
+      				        myFile.write(matched.append(str(comment.id)) + ', ')
+      				        myFile.close()
+      	    except AttributeError:
+      		    pass
+      		x.execute('INSERT INTO answered VALUES(?)', [commend.id])
       
 
 while True:
