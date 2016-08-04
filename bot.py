@@ -67,9 +67,10 @@ class SubmissionReply:
 						pass
 					x.execute('INSERT INTO answered VALUES(?)', [sid]
 					found.commit()
+					
 
 while True:
-  	CommentReply.reply_to_comment(depression_words, depression_response)
-  	SubmissionReply.reply_to_submission(depression_words, depression_response)
-  	time.sleep(10)
+	for i in range(len(all_comment_types)):
+	  	CommentReply.reply_to_comment(all_comment_types[i], all_comment_types[i+1])
+  		time.sleep(10)
   
