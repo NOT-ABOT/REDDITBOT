@@ -2,13 +2,8 @@ import praw, time
 import sqlite3
 
 #Just a starter. This is by no means good programming. It was just a hasty type up to get something down for us to work with
-
 """
-We need to determine the following: 
-
-user_agent = purpose of bot
-username = /u/examplebot
-password = examplepassword
+useragent =
 
 """
 print("Database opening")
@@ -18,9 +13,8 @@ x.execute('CREATE TABLE IF NOT EXISTS answered(ID TEXT)')
 found.commit()
 
 """
-This is obsolete. Callback on redirect url: https://127.0.0.1:65010/authorize_callback
-r = praw.Reddit(user_agent='') #This needs to be filled in
-r.login()
+Callback on redirect url: https://127.0.0.1:65010/authorize_callback
+r= praw.Reddit(useragent = '')
 """
 print("Starting up and loggin in to Reddit")
 
