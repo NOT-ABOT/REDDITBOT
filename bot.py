@@ -61,13 +61,6 @@ all_comment_types = [
 #Still working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
-r = praw.Reddit("A helpful friend with useful advice") #This is where most of my issue is coming from
-r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
-#r.get_authorize_url('...', admin.app_scopes, True)
-#t = r.get_access_information(admin.app_code)
-#r.refresh_access_information(admin.refresh_token)
-
-
 sub = 'reddit_bot_test'
 maxposts = 100
 url = 'http://www.google.com/?#q='
@@ -141,7 +134,7 @@ class SubmissionReply:
 					except AtrributeError:
 						pass
 """
-admin.login()
+r = admin.login()
 print('Running')
 print(r.user)
 CommentReply.reply_to_comment(one_word, one_word_responses)
