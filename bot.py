@@ -1,6 +1,6 @@
 import praw, time
 import re, random
-import admin,records
+import admin, records
 url = 'http://www.google.com/?#q='
 username = 'TheHelpfulBot'
 
@@ -61,7 +61,7 @@ all_comment_types = [
 #Still working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
-r = praw.Reddit("A helpful friend with useful advice")
+r = praw.Reddit("A helpful friend with useful advice") #This is where most of my issue is coming from
 r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
 #r.get_authorize_url('...', admin.app_scopes, True)
 #t = r.get_access_information(admin.app_code)
@@ -147,8 +147,8 @@ print(r.user)
 CommentReply.reply_to_comment(one_word, one_word_responses)
 
 '''
+This will be the main loop when things are running better, and I will add a for loop in here to streamline the search process
 while True:
-    print('Functioning')
     CommentReply.reply_to_comment(depression_words, depression_responses)
     time.sleep(5)
 '''
