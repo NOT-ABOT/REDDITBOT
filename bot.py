@@ -1,12 +1,9 @@
 import praw, time
-import urllib, scrapy
 from Search&Respond.py import *
 import sqlite3
 
 ###########################################################################################
-#I am adding urllib and Scrapy libraries now to enhance the capabilities of this bot. As I#
-#have not used Scrapy before, this may take a few hours to get the hang of, then another  #
-#few to implement it. So please do not remove these imports!                              #
+#Stil working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
 print("Database opening")
@@ -25,19 +22,6 @@ cid = comment.id
 sid = submission.id
 url = 'http://www.google.com/?#q='
 
-"""
-This is a test class and is not yet funcitonal. It will, if finished, be a web scraper
-
-class Web_Scraper(scrapy.Spider):
-	name = 'google'
-	allowed_domains = ['google.com']
-	start_urls = ['https://www.google.com']
-	
-	def parse(self, response):
-		filename = response.url.split('/')[-2] + '.html'
-		with open(filename, 'a') as f:
-			f.write(response.body)
-"""
 class CommentReply:
 	
 	def __init__(self, comment_type, response_type):
@@ -92,9 +76,5 @@ class SubmissionReply:
 					
 
 while True:
-	for i in range(len(all_comment_types)):
-	  	CommentReply.reply_to_comment(all_comment_types[i], all_comment_types[i+1])
-  		time.sleep(10)
-  	for i in range(len(all_submission_types)):
-  		SubmissionReply.reply_to_submission(all_submission_types[i], all_submission_types[i+1])
-  	time.sleep(10)
+	CommentReply.reply_to_comment(depression_words, depression_responses)
+  	time.sleep(5)
