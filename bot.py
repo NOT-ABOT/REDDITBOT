@@ -1,6 +1,5 @@
 import praw, time
-import sqlite3
-import re
+import re, random
 import admin,records
 url = 'http://www.google.com/?#q='
 username = 'TheHelpfulBot'
@@ -87,13 +86,12 @@ class CommentReply:
 						match = any(string.lower() in comment_text for word in comment_type)
 						if match:
 							print("Replying to " + author)
-							comment.reply(response_type)
-						else:
-							pass
+							comment.reply(random.choice(response_type))
+                            with open('records.py', 'a') as rec:
+                                answered_comments.append(comment.id)
+                                rec.close()
 				except AttributeError:
 					pass
-				x.execute('INSERT INTO answered VALUES(?),'[comment.id])
-				found.commit()
 
 
 
@@ -106,20 +104,20 @@ class SubmissionReply:
 		def reply_to_submission(submission_type, _response_type):
 			submissions = r.get_subreddit(sub).get_new(limit=maxposts)
 			for submission in submissions:
-				x.execute('SELECT * FROM answered WHERE SUBMISSION TEXT=?', [submission.id])
-				if not x.fetchone:
+				if submission.id not in answered_submissions:
 					try:
 						author = submission.author.name
 						if author.lower() != username.lower():
 							submission_text = submission.text.lower()
 							match = any(string in submission_text for word in submission_type)
+                            with open('records.py', 'a') as rec:
+                                answered_submissions.append(submission.id)
+                                rec.close()
 							if match:
 								print('Replying to ' + author)
-								submission.reply(response_type)
+								submission.reply(random.choice(response_type))
 					except AtrributeError:
 						pass
-					x.execute('INSERT INTO answered VALUES(?)', [submission.id])
-					found.commit()
 
 
 while True:
