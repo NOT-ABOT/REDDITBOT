@@ -1,7 +1,55 @@
 import praw, time
-from Search&Respond.py import *
 import sqlite3
+import re, oauth
 
+url = 'http://www.google.com/?#q='
+depression_words = [
+                    'I want to die',
+                    'I want to kill myself',
+                    'I hate life',
+                    'I\'m having suicidal thoughts'
+                    'I don\'t have a reason to live'
+                    'I hate myself'
+                    'I am a failure'
+                    'I don\'t deserve to live'
+                    'I can\'t do this anymore'
+                    
+] 
+depression_responses = [
+                      'I\'m so sorry to hear that you\'re in pain. If you are in serious pain and need help' + ', ' + '[please visit this site](https://afsp.org/)',
+                      'I understand your pain. [This site might be able to help](https://afsp.org/)'
+]
+curious_words = [
+                'I wonder why'
+                'How does',
+                'What if',
+                'When did'
+]
+
+curious_responses = [
+                    '[Here, let me help you with that](' + url + ')'
+]
+
+relationship_words= [
+                    'How do I get a *friend*'
+]
+
+relationship_responses = [
+                      'The most common way is to ask the person out'
+  
+  
+]
+
+all_comment_types = [
+                    depression_words, 
+                    curious_words,
+                    relationship_words,
+]
+all_comment_responses = [
+                      depression_responses,
+                      curious_responses,
+  
+]
 ###########################################################################################
 #Stil working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
@@ -12,8 +60,8 @@ x = found.cursor()
 x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
 found.commit()
 
-print("Starting up and loggin in to Reddit...")
-r = praw.Reddit("ThisIsNotTheBotYouAreLookingFor") #Because this bot needs more star wars refrences.
+print("Logging in to Reddit...")
+r = praw.Reddit("A helpful friend with useful advice")
 o = OAuth2Util.OAuth2Util(r)
 o.refresh(force=True)
 sub = 'test'
@@ -42,10 +90,12 @@ class CommentReply:
 						if match:
 							print("Replying to " + author)
 							comment.reply(response_type)
-					except AttributeError:
-						pass
-					x.execute('INSERT INTO answered VALUES(?),'[cid])
-					found.commit()
+						else:
+							pass
+				except AttributeError:
+					pass
+				x.execute('INSERT INTO answered VALUES(?),'[cid])
+				found.commit()
 
 
       
@@ -55,7 +105,7 @@ class SubmissionReply:
 			self.submission_type = submission_type
 			self.submission_reply = submission_reply
 			
-		def reply_to_submission(submission_type, _response_type)
+		def reply_to_submission(submission_type, _response_type):
 			submissions = r.get_subreddit(sub).get_new(limit=maxposts)
 			for submission in submissions:
 				x.execute('SELECT * FROM answered WHERE ID=?', [sid])
@@ -69,12 +119,12 @@ class SubmissionReply:
 							if match:
 								print('Replying to ' + author)
 								submission.reply(response_type)
-					except AttributeError:
+					except AtrributeError:
 						pass
-					x.execute('INSERT INTO answered VALUES(?)', [sid]
+					x.execute('INSERT INTO answered VALUES(?)', [sid])
 					found.commit()
 					
 
 while True:
 	CommentReply.reply_to_comment(depression_words, depression_responses)
-  	time.sleep(5)
+	time.sleep(5)
