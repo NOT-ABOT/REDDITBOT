@@ -15,6 +15,12 @@ depression_words = [
                     'I want to die',
                     'I want to kill myself',
                     'I hate life',
+                    'I\'m having suicidal thoughts'
+                    'I don\'t have a reason to live'
+                    'I hate myself'
+                    'I am a failure'
+                    'I don\'t deserve to live'
+                    'I can\'t do this anymore'
                     
 ] 
 #This is what we are looking for. We will use regular expressions later
@@ -24,14 +30,21 @@ depression_response = [
 ] #This is what we are responding with. Examples here will be replaced with regular expressions
 curious_words = [
                 'I wonder why'
-                'How does'
-                'What if'
+                'How does',
+                'What if',
+                'When did'
 ]
 
 curious_responses = [
-                    '[Here, let me help you with that](' + url + '### + ')'
+                    '[Here, let me help you with that](' + url + comment + ')'
 ]
 
-relationship_words= []
+relationship_words= [
+                    'How do I get a *friend*'
+]
 
-relationship_responses = []
+relationship_responses = [
+                      'The most common way is to ask the person out'
+  
+  
+]
