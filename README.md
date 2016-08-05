@@ -7,3 +7,5 @@ make a product worth more than the sum of its parts.
 # We are constantly working on the bot!
 
 We will be constantly posting updates, making changes fixing bugs and so what Programmers do. Plus insert random star wars refrences at some points. If you have any suggestions, ideas or feedback you would like to share, you can message /u/___NOT_A_BOT___ or /u/UnknownDeveloper on Reddit
+
+#Fixing some bugs
