@@ -3,16 +3,21 @@ import re, random
 import admin,records
 url = 'http://www.google.com/?#q='
 username = 'TheHelpfulBot'
+
+one_word =[
+            'I'
+]
+one_word_responses =['Hi']
 depression_words = [
-                    'I want to die',
-                    'I want to kill myself',
-                    'I hate life',
-                    'I\'m having suicidal thoughts'
-                    'I don\'t have a reason to live'
-                    'I hate myself'
-                    'I am a failure'
-                    'I don\'t deserve to live'
-                    'I can\'t do this anymore'
+                    '(.*)I want to die(.*)',
+                    '(.*)I want to kill myself(.*)',
+                    '(.*)I hate life(.*)',
+                    '(.*)I\'m having suicidal thoughts(.*)'
+                    '(.*)I don\'t have a reason to live(.*)'
+                    '(.*)I hate myself(.*)'
+                    '(.*)I am a failure(.*)'
+                    '(.*)I don\'t deserve to live(.*)'
+                    '(.*)I can\'t do this anymore(.*)'
 
 ]
 depression_responses = [
@@ -20,10 +25,9 @@ depression_responses = [
                       'I understand your pain. [This site might be able to help](https://afsp.org/)'
 ]
 curious_words = [
-                'I wonder why'
-                'How does',
-                'What if',
-                'When did'
+                'How',
+                'Why'
+                'When'
 ]
 
 curious_responses = [
@@ -31,7 +35,7 @@ curious_responses = [
 ]
 
 relationship_words= [
-                    'How do I get a *friend*'
+                    'How do I get a (.)friend(.*)'
 ]
 
 relationship_responses = [
@@ -56,46 +60,59 @@ all_comment_types = [
 #Still working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
-#r = praw.Reddit("A helpful friend with useful advice")
-#r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
-#r.get_authorize_url('...', oauth.app_scopes, True)
+r = praw.Reddit("A helpful friend with useful advice")
+r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
+#r.get_authorize_url('...', admin.app_scopes, True)
+#t = r.get_access_information(admin.app_code)
+#r.refresh_access_information(admin.refresh_token)
 
-def login():
-	r = praw.Reddit("A friend providing useful information and helpful advice")
-	r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
-	r.refresh_access_token(admin.refresh_token)
-	return r
 
-sub = 'test'
+sub = 'reddit_bot_test'
 maxposts = 100
 url = 'http://www.google.com/?#q='
 print('Logging in to Reddit...')
 
 class CommentReply:
 
-	def __init__(self, comment_type, response_type):
-		self.comment_type = comment_type
-		self.response_type = response_type
+    def __init__(self, comment_type, response_type):
+        self.comment_type = comment_type
+        self.response_type = response_type
 
-	def reply_to_comment(comment_type, reponse_type):
-		comments = r.get_subreddit(sub).get_comments(limit=maxposts)
-		for comment in comments:
-			if comment.id not in answered_comments:
-				try:
-					author = comment.author.name
-					if author.lower() != username.lower():
-						comment_text = comment.body.lower()
-						match = any(string.lower() in comment_text for word in comment_type)
-						if match:
-							print("Replying to " + author)
-							comment.reply(random.choice(response_type))
+    def reply_to_comment(comment_type, reponse_type):
+        comments = r.get_subreddit(sub).get_comments(limit=maxposts)
+        for comment in comments:
+            if str(comment.id) not in records.answered_comments:
+                try:
+                    author = comment.author.name
+                    if author.lower() != username.lower():
+                        comment_text = ''.join(comment.body.lower())
+                        match = any(word.lower() in comment_text for word in comment_type)
+                        if match:
+                            print("Replying to /u/" + author)
+                            comment.reply(str(random.choice(response_type)))
                             with open('records.py', 'a') as rec:
-                                answered_comments.append(comment.id)
+                                answered_comments.append(str(comment.id) + ', ')
                                 rec.close()
-				except AttributeError:
-					pass
+                except AttributeError:
+                    pass
 
-
+    def reply_to_comment_url():
+        comments = r.get_subreddit(sub).get_comments(limit=maxposts)
+        for comment in comments:
+            if str(comment.id) not in records.answered_comments:
+                try:
+                    author = comment.author.name
+                    if author.lower() != username.lower():
+                        comment_text = comment.body.lower()
+                        match = any(word.lower() in comment_text for word in curious_words)
+                        if match:
+                            print('Replying to /u/' + author)
+                            comment.reply(str(curious_responses[0]))
+                            with open('records.py', 'a') as rec:
+                                answered_comments.append(str(comment.id)+', ')
+                                rec.close()
+"""
+This is still not functional due to whitespace issues
 
 class SubmissionReply:
 
@@ -120,9 +137,15 @@ class SubmissionReply:
 								submission.reply(random.choice(response_type))
 					except AtrributeError:
 						pass
+"""
+admin.login()
+print('Running')
+print(r.user)
+CommentReply.reply_to_comment(one_word, one_word_responses)
 
-
+'''
 while True:
-	for i in range(len(all_comment_types)-1):
-        CommentReply.reply_to_comment(all_comment_types[i], all_coment_types[i+1])
-        time.sleep(5)
+    print('Functioning')
+    CommentReply.reply_to_comment(depression_words, depression_responses)
+    time.sleep(5)
+'''
