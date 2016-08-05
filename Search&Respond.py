@@ -15,14 +15,14 @@ depression_words = [
                     'I want to die',
                     'I want to kill myself',
                     'I hate life'
-                    'I'm having suicidal thoughts'
-                    'I'm going to do it'
-                    'I don't have a reason to live'
-                    'I'm done'
+                    'I\'m having suicidal thoughts'
+                    'I\'m going to do it'
+                    'I don\'t have a reason to live'
+                    'I\'m done'
                     'I hate myself'
                     'I am a failure'
-                    'I don't deserve to live'
-                    'I can't do this anymore'
+                    'I don\'t deserve to live'
+                    'I can\'t do this anymore'
 
 ] #This is what we are looking for. We will use regular expressions
 depression_response = [
