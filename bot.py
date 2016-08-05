@@ -4,10 +4,11 @@ import admin,records
 url = 'http://www.google.com/?#q='
 username = 'TheHelpfulBot'
 
-one_word =[
-            'I'
-]
+'''
+Ignore these
+one_word =['I']
 one_word_responses =['Hi']
+'''
 depression_words = [
                     '(.*)I want to die(.*)',
                     '(.*)I want to kill myself(.*)',
@@ -49,11 +50,11 @@ relationship_responses = [
 
 all_comment_types = [
                     depression_words,
-					depression_responses,
+		    depression_responses,
                     curious_words,
-					curious_responses,
+		    curious_responses,
                     relationship_words,
-					relationship_responses
+		    relationship_responses
 ]
 
 ###########################################################################################
