@@ -13,11 +13,11 @@ depression_words = [
                     '(.*)Iwanttodie(.*)',
                     '(.*)Iwanttokillmyself(.*)',
                     '(.*)Ihatelife(.*)',
-                    '(.*)I\'mhavingsuicidalthoughts(.*)'
-                    '(.*)Idon\'thaveareasontolive(.*)'
-                    '(.*)Ihatemyself(.*)'
-                    '(.*)Iamafailure(.*)'
-                    '(.*)Idon\'tdeservetolive(.*)'
+                    '(.*)I\'mhavingsuicidalthoughts(.*)',
+                    '(.*)Idon\'thaveareasontolive(.*)',
+                    '(.*)Ihatemyself(.*)',
+                    '(.*)Iamafailure(.*)',
+                    '(.*)Idon\'tdeservetolive(.*)',
                     '(.*)Ican\'tdothisanymore(.*)'
 
 ]
