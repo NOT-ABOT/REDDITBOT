@@ -32,7 +32,7 @@ curious_words = [
 ]
 
 curious_responses = [
-                    '[Here, let me help you with that](' + url + ')'
+                    '[Here, let me help you with that](' + url
 ]
 
 relationship_words= [
@@ -108,7 +108,7 @@ class CommentReply:
                         match = any(word.lower() in comment_text for word in curious_words)
                         if match:
                             print('Replying to /u/' + author)
-                            comment.reply(str(curious_responses[0] + comment_text))
+                            comment.reply(str(curious_responses[0] + comment_text + ')'))
                             with open('records.py', 'a') as rec:
                                 answered_comments.append(str(comment.id)+', ')
                                 rec.close()
