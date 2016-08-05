@@ -10,15 +10,15 @@ one_word =['I']
 one_word_responses =['Hi']
 '''
 depression_words = [
-                    '(.*)I want to die(.*)',
-                    '(.*)I want to kill myself(.*)',
-                    '(.*)I hate life(.*)',
-                    '(.*)I\'m having suicidal thoughts(.*)'
-                    '(.*)I don\'t have a reason to live(.*)'
-                    '(.*)I hate myself(.*)'
-                    '(.*)I am a failure(.*)'
-                    '(.*)I don\'t deserve to live(.*)'
-                    '(.*)I can\'t do this anymore(.*)'
+                    '(.*)Iwanttodie(.*)',
+                    '(.*)Iwanttokillmyself(.*)',
+                    '(.*)Ihatelife(.*)',
+                    '(.*)I\'mhavingsuicidalthoughts(.*)'
+                    '(.*)Idon\'thaveareasontolive(.*)'
+                    '(.*)Ihatemyself(.*)'
+                    '(.*)Iamafailure(.*)'
+                    '(.*)Idon\'tdeservetolive(.*)'
+                    '(.*)Ican\'tdothisanymore(.*)'
 
 ]
 depression_responses = [
@@ -36,7 +36,7 @@ curious_responses = [
 ]
 
 relationship_words= [
-                    'How do I get a (.)friend(.*)'
+                    'HowdoIgeta(.*)friend(.*)'
 ]
 
 relationship_responses = [
