@@ -43,7 +43,11 @@ curious_responses = [
 ]
 
 relationship_words= [
-                    'How do I get a *friend*'
+                    'How do I get a *friend*',
+                    'How do I get a *girlfriend*',
+                    'How do I get a *boyfriend*',
+                    'How do I ask him out',
+                    'How do I ask her out'
 ]
 
 relationship_responses = [
