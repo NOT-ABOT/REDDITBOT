@@ -79,7 +79,7 @@ class CommentReply:
         self.comment_type = comment_type
         self.response_type = response_type
 
-    def reply_to_comment(comment_type, reponse_type):
+    def reply_to_comment(comment_type, response_type):
         comments = r.get_subreddit(sub).get_comments(limit=maxposts)
         for comment in comments:
             if str(comment.id) not in records.answered_comments:
@@ -108,7 +108,7 @@ class CommentReply:
                         match = any(word.lower() in comment_text for word in curious_words)
                         if match:
                             print('Replying to /u/' + author)
-                            comment.reply(str(curious_responses[0]))
+                            comment.reply(str(curious_responses[0] + comment_text))
                             with open('records.py', 'a') as rec:
                                 answered_comments.append(str(comment.id)+', ')
                                 rec.close()
