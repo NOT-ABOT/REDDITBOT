@@ -36,7 +36,9 @@ relationship_words= [
 
 relationship_responses = [
                       'The most common way is to ask the person out'
-                      'Sometimes the most important thing is simply being there for someone'
+                      'Sometimes the most important thing is simply being there for someone',
+                      'How do I ask him out',
+                      'How do I ask her out'
 
 
 ]
