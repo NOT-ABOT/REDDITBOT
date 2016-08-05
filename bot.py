@@ -112,6 +112,8 @@ class CommentReply:
                             with open('records.py', 'a') as rec:
                                 answered_comments.append(str(comment.id)+', ')
                                 rec.close()
+                except AttributeError:
+                	pass
 """
 This is still not functional due to whitespace issues
 
