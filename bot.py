@@ -1,8 +1,9 @@
 import praw, time
 import sqlite3
-import re, oauth
-
+import re
+import oauth
 url = 'http://www.google.com/?#q='
+username = 'TheHelpfulBot'
 depression_words = [
                     'I want to die',
                     'I want to kill myself',
@@ -54,20 +55,17 @@ all_comment_responses = [
 #Stil working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
-print("Database opening")
+print("Opening Database...")
 found = sqlite3.connect('answered.db') #create a database w/SQLite3 python library
 x = found.cursor()
-x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT ID TEXT, SUBMISSION ID TEXT)')
+x.execute('CREATE TABLE IF NOT EXISTS answered(COMMENT TEXT, SUBMISSION TEXT)')
 found.commit()
 
 print("Logging in to Reddit...")
 r = praw.Reddit("A helpful friend with useful advice")
-o = OAuth2Util.OAuth2Util(r)
-o.refresh(force=True)
+r.set_oauth_app_info(oauth.app_id, oauth.app_secret, oauth.redirecturl)
 sub = 'test'
 maxposts = 100
-cid = comment.id
-sid = submission.id
 url = 'http://www.google.com/?#q='
 
 class CommentReply:
@@ -79,14 +77,14 @@ class CommentReply:
 	def reply_to_comment(comment_type, reponse_type):
 		comments = r.get_subreddit(sub).get_comments(limit=maxposts)
 		for comment in comments:
-			x.execute('Select * FROM answered WHERE ID=?', [cid])
+			x.execute('Select * FROM answered WHERE COMMENT=?', [comment.id])
 			if not x.fetchone():
 				try:
 					author = comment.author.name
 					if author.lower() != username.lower():
 						comment_text = comment.body.lower()
-						r.send_message('___NOT_A_BOT___', 'Response', 'Comment answered')
-						match = any(string in comment_text for word in comment_type)
+						string = comment.body.lower().split()
+						match = any(string.lower() in comment_text for word in comment_type)
 						if match:
 							print("Replying to " + author)
 							comment.reply(response_type)
@@ -94,7 +92,7 @@ class CommentReply:
 							pass
 				except AttributeError:
 					pass
-				x.execute('INSERT INTO answered VALUES(?),'[cid])
+				x.execute('INSERT INTO answered VALUES(?),'[comment.id])
 				found.commit()
 
 
@@ -108,20 +106,19 @@ class SubmissionReply:
 		def reply_to_submission(submission_type, _response_type):
 			submissions = r.get_subreddit(sub).get_new(limit=maxposts)
 			for submission in submissions:
-				x.execute('SELECT * FROM answered WHERE ID=?', [sid])
+				x.execute('SELECT * FROM answered WHERE SUBMISSION TEXT=?', [submission.id])
 				if not x.fetchone:
 					try:
 						author = submission.author.name
 						if author.lower() != username.lower():
 							submission_text = submission.text.lower()
-							r.send_message('___NOT_A_BOT___', 'Response', 'Submission answered')
 							match = any(string in submission_text for word in submission_type)
 							if match:
 								print('Replying to ' + author)
 								submission.reply(response_type)
 					except AtrributeError:
 						pass
-					x.execute('INSERT INTO answered VALUES(?)', [sid])
+					x.execute('INSERT INTO answered VALUES(?)', [submission.id])
 					found.commit()
 					
 
