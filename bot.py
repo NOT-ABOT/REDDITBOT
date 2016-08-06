@@ -1,14 +1,11 @@
 import praw, time
 import re, random
 import admin, records
+
 url = 'http://www.google.com/?#q='
 username = 'TheHelpfulBot'
 
-'''
-Ignore these
-one_word =['I']
-one_word_responses =['Hi']
-'''
+
 depression_words = [
                     '(.*)Iwanttodie(.*)',
                     '(.*)Iwanttokillmyself(.*)',
@@ -18,12 +15,12 @@ depression_words = [
                     '(.*)Ihatemyself(.*)',
                     '(.*)Iamafailure(.*)',
                     '(.*)Idon\'tdeservetolive(.*)',
-                    '(.*)Ican\'tdothisanymore(.*)'
+                    '(.*)I can\'t do this anymore(.*)'
 
 ]
 depression_responses = [
                       'I\'m so sorry to hear that you\'re in pain. If you are in serious pain and need help' + ', ' + '[please visit this site](https://afsp.org/)',
-                      'I understand your pain. [This site might be able to help](https://afsp.org/)'
+                      'I understand your pain. [This site might be able to help](https://afsp.org/)',
 ]
 curious_words = [
                 'How',
@@ -36,7 +33,7 @@ curious_responses = [
 ]
 
 relationship_words= [
-                    'HowdoIgeta(.*)friend(.*)'
+                    'How do I get a (.*)friend(.*)'
 ]
 
 relationship_responses = [
@@ -50,11 +47,11 @@ relationship_responses = [
 
 all_comment_types = [
                     depression_words,
-		    depression_responses,
+					depression_responses,
                     curious_words,
-		    curious_responses,
+					curious_responses,
                     relationship_words,
-		    relationship_responses
+					relationship_responses
 ]
 
 ###########################################################################################
@@ -83,9 +80,9 @@ class CommentReply:
                         match = any(word.lower() in comment_text for word in comment_type)
                         if match:
                             print("Replying to /u/" + author)
-                            comment.reply(str(random.choice(response_type)))
+                            comment.reply(str(random.choice(response_type)) + '\n\n*I am a bot, and this is a test.*')
                             with open('records.py', 'a') as rec:
-                                answered_comments.append(str(comment.id) + ', ')
+                                records.answered_comments.append(str(comment.id) + ', ')
                                 rec.close()
                 except AttributeError:
                     pass
@@ -106,7 +103,9 @@ class CommentReply:
                                 answered_comments.append(str(comment.id)+', ')
                                 rec.close()
                 except AttributeError:
-                	pass
+                    pass
+
+
 """
 This is still not functional due to whitespace issues
 
@@ -134,14 +133,17 @@ class SubmissionReply:
 					except AtrributeError:
 						pass
 """
-r = admin.login()
-print('Running')
-print(r.user)
-CommentReply.reply_to_comment(one_word, one_word_responses)
 
-'''
-This will be the main loop when things are running better, and I will add a for loop in here to streamline the search process
+def login():
+    r = praw.Reddit('A helpful friend with useful advice')
+    r.set_oauth_app_info(admin.app_id, admin.app_secret, admin.redirecturl)
+    r.refresh_access_information(admin.refresh_token)
+    return r
+
+r = login()
+r
 while True:
+    print('Scanning...')
     CommentReply.reply_to_comment(depression_words, depression_responses)
+    Comment.Reply.reply_to_comment(relationship_words, relationship_responses)
     time.sleep(5)
-'''
