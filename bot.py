@@ -1,9 +1,20 @@
 import praw, time
+import json,urlib
 import re, random
 import admin, records
 
+apikey = 'key here mate' #because british accent
+
 url = 'http://www.google.com/?#q='
-username = 'TheHelpfulBot'
+knowledgesearch = 'https://kgsearch.googleapis.com/v1/entities:search'
+params = {
+'query': term,
+'limit': 10, 
+'indent': True,
+'key': apiKey,
+}
+
+username = 'TheHelpfulBot' # Now that is a name that I haven't heard in a long time.
 
 
 depression_words = [
@@ -24,7 +35,7 @@ depression_responses = [
 ]
 curious_words = [
                 'How',
-                'Why'
+                'Why',
                 'When'
 ]
 
@@ -34,31 +45,32 @@ curious_responses = [
 
 relationship_words= [
                     'How do I get a (.*)friend(.*)'
+                    'How do I ask him out',
+                    'How do I ask her out'
+
 ]
 
 relationship_responses = [
                       'The most common way is to ask the person out'
                       'Sometimes the most important thing is simply being there for someone',
-                      'How do I ask him out',
-                      'How do I ask her out'
 
 
 ]
 
 all_comment_types = [
                     depression_words,
-					depression_responses,
+	            depression_responses,
                     curious_words,
-					curious_responses,
+		    curious_responses,
                     relationship_words,
-					relationship_responses
+		    relationship_responses
 ]
 
 ###########################################################################################
 #Still working in things, but I'm gonna try to test this thing out tonight, if possible    #
 ###########################################################################################
 
-sub = 'reddit_bot_test'
+sub = 'reddit_bot_test'  #EXECUTE ORDER 66!
 maxposts = 100
 print('Logging in to Reddit...')
 
