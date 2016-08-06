@@ -7,15 +7,15 @@ username = 'TheHelpfulBot'
 
 
 depression_words = [
-                    '(.*)Iwanttodie(.*)',
-                    '(.*)Iwanttokillmyself(.*)',
-                    '(.*)Ihatelife(.*)',
-                    '(.*)I\'mhavingsuicidalthoughts(.*)',
-                    '(.*)Idon\'thaveareasontolive(.*)',
-                    '(.*)Ihatemyself(.*)',
-                    '(.*)Iamafailure(.*)',
-                    '(.*)Idon\'tdeservetolive(.*)',
-                    '(.*)I can\'t do this anymore(.*)'
+                    'i want to die',
+                    'i want to kill myself',
+                    'i hate life',
+                    'i\'m having suicidal thoughts',
+                    'i don\'t have a reason to live',
+                    'i am so stupid',
+                    'i am a failure',
+                    'i don\'t deserve to live',
+                    'i can\'t do this anymore'
 
 ]
 depression_responses = [
