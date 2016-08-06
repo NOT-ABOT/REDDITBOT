@@ -60,7 +60,6 @@ all_comment_types = [
 
 sub = 'reddit_bot_test'
 maxposts = 100
-url = 'http://www.google.com/?#q='
 print('Logging in to Reddit...')
 
 class CommentReply:
