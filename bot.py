@@ -3,7 +3,7 @@ import re, random, sqlite3
 import admin
 import json, urllib
 
-url = 'http://www.google.com/?#q='
+
 username = 'TheHelpfulBot'
 disclaimer = '\n\n*I am a bot in beta mode. Please be patient with me as I figure things out.*'
 ##########################################################################################
