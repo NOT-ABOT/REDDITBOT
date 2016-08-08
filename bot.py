@@ -1,7 +1,7 @@
 import praw, time
 import re, random, sqlite3
 import admin
-import json, urllib #These are being added on right now. They are not yet functional
+import json, urllib
 url = 'http://www.google.com/?#q='
 disclaimer = '''
 \n\n -----------------------------------------------------------------------------------------------------------------------\n\n
@@ -99,7 +99,7 @@ dating_responses = ['Cool! Great jo -- I\'m happy for you!',
                     'That\'s great dude!']
 
 common_words = [
-                '(.*)count'
+                'count'
                 ]
 
 numbers = []
@@ -202,7 +202,7 @@ class CommentReply:
                     if author.lower() != username.lower():
                         comment_text = comment.body.lower()
                         for i in range(len(curious_words)):
-                            if re.match(curious_words[i], comment_text) and len(comment_text) <= 150:
+                            if re.match(curious_words[i], comment_text) and len(comment_text) <= 100 and not re.match(regular_words[i], comment_text):
                                 print('Replying to comment by /u/' + author + ' with url')
                                 comment.reply(random.choice(curious_responses) + str(comment_text) + ')' + disclaimer)
                                 r.send_message('___NOT_A_BOT___', 'URL', "I just responded with a url, better check it out")
@@ -232,7 +232,7 @@ class CommentReply:
                                             'I was gonna say ' + str(b) + ', but on second thought I would say ' + str(random.randint(5,10))
                                             ]
                                     comment.reply(random.choice(resp) + disclaimer)
-                                    r.send_message(author, 'Have a nice day', 'I hope you have a nice day!')
+                                    r.send_message(author, 'Have a nice day', 'I hope you have a nice day!' + disclaimer)
                                     print('Rating /u/' + author)
                                     r.send_message('___NOT_A_BOT___', 'Rating', 'Rated /u/' + author)
                                     cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
@@ -243,13 +243,14 @@ class CommentReply:
                         pass
 
     def single_user(look, say):
+        user = input('Which user shall I obey? ')
         comments = r.get_subreddit(sub).get_comments(limit=maxposts)
         for comment in comments:
             cur.execute('SELECT * FROM oldposts WHERE ID=?', [comment.id])
             if not cur.fetchone():
                 try:
                     author = comment.author.name
-                    if author.lower() == 'xudb':
+                    if author.lower() == user.lower():
                         comment_text = comment.body.lower()
                         if re.match(look, comment_text):
                             print('Replying with ' + say + ' to /u/' + author)
@@ -300,7 +301,7 @@ class SubmissionReply:
                     if author.lower() != username.lower():
                         submission_title = submission.title.lower()
                         for i in range(len(curious_words)):
-                            if re.match(curious_words[i], submission_title):
+                            if re.match(curious_words[i], submission_title) and not re.match(regular_words[i], submission_title):
                                 print('Replying to submission by /u/' + author + ' with url')
                                 r.send_message('___NOT_A_BOT___', 'URL', 'Just sent a url to /u/' + author)
                                 submission.add_comment(random.choice(curious_responses) + submission_title + ') ' + disclaimer)
@@ -317,6 +318,14 @@ def login():
     return r
 r = login()
 r
+
+def test():
+    comments = r.get_subreddit(sub).get_comments(limit=maxposts)
+    for comment in comments:
+        comment_text = comment.body.lower()
+        print(comment_text + '\n\n---------------------------------------------------------------\n\n')
+
+
 num = 1
 
 while True:
@@ -328,11 +337,10 @@ while True:
     CommentReply.reply_to_comment(dating_words, dating_responses)
     CommentReply.single_reply_to_comment('thanks', 'You\'re welcome' + disclaimer)
     CommentReply.single_reply_to_comment('thank you', 'You\'re welcome' + disclaimer)
+    CommentReply.single_reply_to_comment('kar(.*)', 'It looks like you mentioned karma! You can get all the free karma you want on r/FreeKarma4You' + disclaimer)
     CommentReply.reply_to_comment_url()
     CommentReply.looks(regular_words)
     CommentReply.reply_to_comment(self_words, self_responses)
-    CommentReply.reply_to_comment(common_words, common_responses)
-    #CommentReply.single_reply_to_comment()
     time.sleep(2)
     num += 1
     if num == 1200:
