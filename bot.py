@@ -1,8 +1,12 @@
 import praw, time
 import re, random, sqlite3
 import admin
-import json, urllib
+import json, urllib #These are being added on right now. They are not yet functional
 url = 'http://www.google.com/?#q='
+disclaimer = '''
+\n\n -----------------------------------------------------------------------------------------------------------------------\n\n
+*I am a bot, and this was done automatically. If you have any questions or concerns regarding my operation, or simply would like to know how
+you can contribute to my development, please [message the very human owner of this account](https://www.reddit.com/message/compose/?to=___NOT_A_BOT___)* '''
 
 ##########################################################################################
 #Long responses section                                                                  #
@@ -44,7 +48,7 @@ When I die, I want to go peacefully like my grandfather did–in his sleep. Not 
 f14='''
 I AM NOT A BOT, AS MY USERNAME SUGGESTS - */u/___NOT_A_BOT___*
 '''
-d1 ='''Life: the condition that distinguishes animals and plants from inorganic matter, including the capacity for growth, reproduction, functional activity, and continual change preceding death.'''
+
 
 ################################################################################################################
 #Search list                                                                                                   #
@@ -59,53 +63,51 @@ params = {
 }
 
 self_words = [
-            '/u/thehelpfulbot'
+            '(.*)thehelpfulbot',
+            'quote(.*)',
+
 ]
 
 self_responses = [f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14]
 
 curious_words = [
-                'how do(.*) ',
-                'why do(.*)',
-                'when is',
-                'how can i'
+                'how',
+                'why',
+                'what',
+                'who(.*)'
 ]
 
 curious_responses = [
-                    '[Here, let me help you with that](' + url
+                    '[Here, let me help you with that](' + url,
+                    '[Maybe I can help?](' + url,
+                    '[Let me know if this helps](' + url,
+                    '[Perhaps this link would help](' + url,
+                    '[This link might help](' + url
 ]
 
-relationship_words= [
-                    'how do I get a (.*)friend(.*)',
-                    'i (.*) advice on how to get a (.*)friend(.*)'
-]
-
-relationship_responses = [
-                      'The most common way to get a date is to ask the person out'
-                      'Sometimes the most important thing is simply being there for someone. This may help you get a date',
-]
-
-deep_words = ['what(.*) (.*) the meaning of life(.*)'
-]
-
-deep_responses = [d1]
 
 regular_words = ['(.*) how pretty am i(.*)',
-                '(.*) how smart am i(.*)',
-                '(.*) how cool am i(.*)',
-                '(.*) how awesome am i(.*)',]
+                '(.*) (.*)how smart am i(.*)',
+                '(.*) (.*)how cool am i(.*)',
+                '(.*) (.*)how awesome am i(.*)',]
 
+dating_words = ['i got a date(.*)',
+                'i(.*)m in bo(.*)',
+                ]
+
+dating_responses = ['Cool! Great jo -- I\'m happy for you!',
+                    'That\'s great dude!']
 
 common_words = [
-                'count(.*)'
+                '(.*)count'
                 ]
 
 numbers = []
-for i in range(1001, 3):
+for i in range(1001):
     numbers.append(str(i))
 
 common_responses = [
-                 'Did someone say count? I love to count! Here is a list of my favorite numbers: \n ' + str(' '.join(numbers)),
+                 'Yay! I love numbers!: \n ' + str(' \n'.join(numbers)),
                  ]
 
 ###########################################################################################################
@@ -140,8 +142,9 @@ class CommentReply:
                         for i in range(len(comment_type)):
                             if re.match(comment_type[i], comment_text):
                                 print("Replying to /u/" + author)
-                                r.send_message('___NOT_A_BOT___','Answer','Message Answered')
-                                comment.reply(random.choice(response_type))
+                                r.send_message('___NOT_A_BOT___','Answer','Answered ' + author)
+                                r.send_message(author, 'Have a nice day', 'I hope you have a nice day!')
+                                comment.reply(random.choice(response_type) + disclaimer)
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
                                 sql.commit()
                             else:
@@ -163,7 +166,7 @@ class CommentReply:
                                 print('Replying to /u/' + author)
                                 r.send_message('___NOT_A_BOT___', 'Answer', 'Answered comment by /u/' + author)
                                 comment.reply(response_type[i])
-                                cur.execute('INSERT INTO oldposts VALUES(?),' [comment.id])
+                                cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
                                 sql.commit()
                             else:
                                 pass
@@ -180,9 +183,9 @@ class CommentReply:
                     if author.lower() != username.lower():
                         comment_text = comment.body.lower()
                         if re.match(look, comment_text):
-                            print('Replying with' + say + 'to /u/' + author)
+                            print('Replying with ' + say + ' to /u/' + author)
                             comment.reply(say)
-                            cur.execute('INSERT INTO oldposts VALUES(?),' [comment.id])
+                            cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
                             sql.commit()
                         else:
                             pass
@@ -199,9 +202,10 @@ class CommentReply:
                     if author.lower() != username.lower():
                         comment_text = comment.body.lower()
                         for i in range(len(curious_words)):
-                            if re.match(curious_words[i], comment_text):
+                            if re.match(curious_words[i], comment_text) and len(comment_text) <= 150:
                                 print('Replying to comment by /u/' + author + ' with url')
-                                comment.reply(str(curious_responses[0] +  comment_text + ') ' + disclaimer)) #Work on this with re library
+                                comment.reply(random.choice(curious_responses) + str(comment_text) + ')' + disclaimer)
+                                r.send_message('___NOT_A_BOT___', 'URL', "I just responded with a url, better check it out")
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
                                 sql.commit()
                 except AttributeError:
@@ -227,7 +231,8 @@ class CommentReply:
                                             'Hmm, you\'re a ' + str(rating),
                                             'I was gonna say ' + str(b) + ', but on second thought I would say ' + str(random.randint(5,10))
                                             ]
-                                    comment.reply(random.choice(resp))
+                                    comment.reply(random.choice(resp) + disclaimer)
+                                    r.send_message(author, 'Have a nice day', 'I hope you have a nice day!')
                                     print('Rating /u/' + author)
                                     r.send_message('___NOT_A_BOT___', 'Rating', 'Rated /u/' + author)
                                     cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
@@ -237,6 +242,24 @@ class CommentReply:
                     except AttributeError:
                         pass
 
+    def single_user(look, say):
+        comments = r.get_subreddit(sub).get_comments(limit=maxposts)
+        for comment in comments:
+            cur.execute('SELECT * FROM oldposts WHERE ID=?', [comment.id])
+            if not cur.fetchone():
+                try:
+                    author = comment.author.name
+                    if author.lower() == 'xudb':
+                        comment_text = comment.body.lower()
+                        if re.match(look, comment_text):
+                            print('Replying with ' + say + ' to /u/' + author)
+                            comment.reply(say)
+                            cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
+                            sql.commit()
+                        else:
+                            pass
+                except AttributeError:
+                    pass
 
 class SubmissionReply:
 
@@ -245,18 +268,21 @@ class SubmissionReply:
         self.submission_type = submission_type
         self.submission_reply = submission_reply
 
-    def reply_to_submission(submission_type, _response_type):
-        submissions = r.get_subreddit(sub).get_new(limit=maxposts)
+    def reply_to_submission(submission_type, response_type):
+        submissions = r.get_subreddit(sub).get_hot(limit=maxposts)
         for submission in submissions:
+            cur.execute('SELECT * FROM oldposts WHERE ID=?', [submission.id])
             if not cur.fetchone():
                 try:
                     author = submission.author.name
                     if author.lower() != username.lower():
-                        submission_text = submission.text.lower()
+                        submission_title = submission.title.lower()
+                        submission_text = submission.body.lower()
                         for i in range(len(submission_type)):
-                            if re.match(submission_type[i], submission_text):
+                            if re.match(submission_type[i], submission_title):
                                 print('Replying to submission by /u/' + author)
                                 submission.add_comment(random.choice(response_type))
+                                r.send_message(author, 'Do no reply', disclaimer)
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [submission.id])
                                 sql.commit()
                             else:
@@ -264,6 +290,24 @@ class SubmissionReply:
                 except AttributeError:
                     pass
 
+    def reply_to_submission_url():
+        submissions = r.get_subreddit(sub).get_hot(limit=maxposts)
+        for submission in submissions:
+            cur.execute('SELECT * FROM oldposts WHERE ID=?', [submission.id])
+            if not cur.fetchone():
+                try:
+                    author = submission.author.name
+                    if author.lower() != username.lower():
+                        submission_title = submission.title.lower()
+                        for i in range(len(curious_words)):
+                            if re.match(curious_words[i], submission_title):
+                                print('Replying to submission by /u/' + author + ' with url')
+                                r.send_message('___NOT_A_BOT___', 'URL', 'Just sent a url to /u/' + author)
+                                submission.add_comment(random.choice(curious_responses) + submission_title + ') ' + disclaimer)
+                                cur.execute('INSERT INTO oldposts VALUES(?)', [submission.id])
+                                sql.commit()
+                except AttributeError:
+                    pass
 
 def login():
     print('Logging in...')
@@ -275,15 +319,21 @@ r = login()
 r
 num = 1
 
-
 while True:
     print('...')
+    SubmissionReply.reply_to_submission_url()
+    SubmissionReply.reply_to_submission(self_words, self_responses)
+    SubmissionReply.reply_to_submission(common_words, common_responses)
+    SubmissionReply.reply_to_submission(dating_words, dating_responses)
+    CommentReply.reply_to_comment(dating_words, dating_responses)
+    CommentReply.single_reply_to_comment('thanks', 'You\'re welcome' + disclaimer)
+    CommentReply.single_reply_to_comment('thank you', 'You\'re welcome' + disclaimer)
+    CommentReply.reply_to_comment_url()
     CommentReply.looks(regular_words)
-    CommentReply.reply_to_comment(relationship_words, relationship_responses)
     CommentReply.reply_to_comment(self_words, self_responses)
-    CommentReply.reply_to_comment(deep_words, deep_responses)
     CommentReply.reply_to_comment(common_words, common_responses)
+    #CommentReply.single_reply_to_comment()
     time.sleep(2)
     num += 1
     if num == 1200:
-        login()
+        r
