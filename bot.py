@@ -1,7 +1,6 @@
 import praw, time
 import re, random, sqlite3
 import admin
-import json, urllib
 url = 'http://www.google.com/?#q='
 disclaimer = '''
 \n\n -----------------------------------------------------------------------------------------------------------------------\n\n
@@ -53,14 +52,6 @@ I AM NOT A BOT, AS MY USERNAME SUGGESTS - */u/___NOT_A_BOT___*
 ################################################################################################################
 #Search list                                                                                                   #
 ################################################################################################################
-
-knowledgesearch = 'https://kgsearch.googleapis.com/v1/entities:search'
-params = {
-'query': 'term',
-'limit': '10',
-'indent': 'True',
-'key': 'apiKey',
-}
 
 self_words = [
             '(.*)thehelpfulbot',
@@ -205,7 +196,6 @@ class CommentReply:
                             if re.match(curious_words[i], comment_text) and len(comment_text) <= 100 and not re.match(regular_words[i], comment_text):
                                 print('Replying to comment by /u/' + author + ' with url')
                                 comment.reply(random.choice(curious_responses) + str(comment_text) + ')' + disclaimer)
-                                r.send_message('___NOT_A_BOT___', 'URL', "I just responded with a url, better check it out")
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [comment.id])
                                 sql.commit()
                 except AttributeError:
@@ -283,7 +273,6 @@ class SubmissionReply:
                             if re.match(submission_type[i], submission_title):
                                 print('Replying to submission by /u/' + author)
                                 submission.add_comment(random.choice(response_type))
-                                r.send_message(author, 'Do no reply', disclaimer)
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [submission.id])
                                 sql.commit()
                             else:
@@ -303,7 +292,6 @@ class SubmissionReply:
                         for i in range(len(curious_words)):
                             if re.match(curious_words[i], submission_title) and not re.match(regular_words[i], submission_title):
                                 print('Replying to submission by /u/' + author + ' with url')
-                                r.send_message('___NOT_A_BOT___', 'URL', 'Just sent a url to /u/' + author)
                                 submission.add_comment(random.choice(curious_responses) + submission_title + ') ' + disclaimer)
                                 cur.execute('INSERT INTO oldposts VALUES(?)', [submission.id])
                                 sql.commit()
